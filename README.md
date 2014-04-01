@@ -107,10 +107,10 @@ The query getSegmentFor("org1", "gen", "Female") will return a 1-element Segment
 The query getSegmentFor("org1", "gen", "Male") will return a 1-element SegmentConfigArray containing a SegmentConfig object with id "dem.g.m"
 The query getSegmentFor("org1", "gen", <<any value other than "Male" or "Female">>) will return an empty SegmentConfig array.
 
-Nonfunctional requirements:
+Nonfunctional requirements:`
 -The data structure should be as small as possible in memory
--The design should be optimized for speed of lookup (i.e., the methods defined in the interface).
--The design should be optimized to be as memory stable as possible for lookups; meaning high rates of lookup calls should not
+-HIGH IMPORTANCE: The design should be optimized for speed of lookup (i.e., the methods defined in the interface).
+-HIGH IMPORTANCE: The design should be optimized to be as memory stable as possible for lookups; meaning high rates of lookup calls should not
  generate memory churn and significant gc activity.
 
 
