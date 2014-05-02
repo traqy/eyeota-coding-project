@@ -127,7 +127,7 @@ The project specifies the Jettison and Jackson JSON parsing libraries (take your
 
 You may use any resources available to you in terms of research, however you need to work alone.
 
-Please submit your solution in the form of a tarball (created with command: tar -czvf) or a zip file to your Eyeota recruiting contact within 7 days of receiving these instructions.
+Please submit your solution in the form of a tarball (created with command: tar -czvf) or a zip file to your Eyeota recruiting contact within 7 days of receiving these instructions.  Please also note that you'll need to remove the gradlew.bat file as any archive containing this will be rejected by our email filters.
 
 Good Luck, and have fun!
 
