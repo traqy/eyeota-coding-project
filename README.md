@@ -98,7 +98,7 @@ Given the following JSON Structure:
 
 The query getSegmentFor("org1", "paramName1")  will return an empty SegmentConfig array.
 The query getSegmentFor("org1", "paramName1", "paramVal1")  will return a 1-element SegmentConfigArray containing a SegmentConfig object for seg_1234
-The query getSegmentFor("org1", "paramName1", <<"paramVal2" |  "paramVal3" |  "paramVal4" |  "paramVal5">> )  will return a 1-element SegmentConfigArray containing a SegmentConfig object with id: "intr.edu"
+The query getSegmentFor("org1", "paramName1", <<"paramVal2" OR  "paramVal3" OR  "paramVal4" OR  "paramVal5">> )  will return a 1-element SegmentConfigArray containing a SegmentConfig object with id: "intr.edu". (Note that in the data file paramVals may be in a "\n" delimited string.)
 The query getSegmentFor("org1", "paramName1", "paramVal6" )  will return a 3-element SegmentConfigArray containing SegmentConfig objects with ids: dem.infg.m, intr.heal, dem.infg.f
 The query getSegmentFor("org1", "testedu")  will return a 1-element SegmentConfigArray containing a SegmentConfig object with id "n277"
 The query getSegmentFor("org1", "testedu", "")  will return a 1-element SegmentConfigArray containing a SegmentConfig object with id "n277"
@@ -117,7 +117,7 @@ Nonfunctional requirements:`
 Notes:
 
 A project skeleton has been implemented with Gradle.  You can run the usual Gradle commands to clean, build, run tests, etc... using the
-Gradle wrapper (e.g.: ./gradlew clean|build|...) from your project root.
+Gradle wrapper (e.g.: ./gradlew clean|build|test) from your project root. Do not use Maven or any other build tool.  
 
 Do not change the data file.
 
