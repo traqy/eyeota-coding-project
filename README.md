@@ -39,7 +39,7 @@ Given the following JSON Structure:
                         }
                     },
                     {
-                        "paramVal2\nparamVal23\nparamVal4\nparamVal5": {
+                        "paramVal2\nparamVal3\nparamVal4\nparamVal5": {
                             "segmentId": "intr.edu"
                         }
                     },
