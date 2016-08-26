@@ -123,7 +123,7 @@ Do not change the data file.
 
 All projects must build and should have runnable unit tests that demonstrate that the requirements have been met.
 
-The project specifies the Jettison and Jackson JSON parsing libraries (take your pick) and JUnit as dependencies.  Solutions should target JDK/JRE 1.7.  No other dependencies should be added.
+The project specifies the Jettison and Jackson JSON parsing libraries (take your pick) and JUnit as dependencies.  Solutions should target JDK/JRE 1.8.  No other dependencies should be added.
 
 You may use any resources available to you in terms of research, however you need to work alone.
 
