@@ -23,10 +23,20 @@ class Lookup implements LookupCache {
 	
 	private HashMap<String, HashMap<String, HashMap<String, List<SegmentConfig>>>> config = new HashMap<String, HashMap<String, HashMap<String, List<SegmentConfig>>>>();
 	
+	public Lookup(){
+		String defaultJSONFile = "src/test/resources/data.json";
+		this.loadConfig(defaultJSONFile);		
+	}
+	
 	public Lookup(final String jsonFile){
 		
+		this.loadConfig(jsonFile);
+			
+	}
+	
+	public void loadConfig(final String jsonFile){
+
 		String jsonConfigString = this.readFile(jsonFile);
-		
 		
 		try{
 			JSONArray jsonArrayFirstLevel = new JSONArray( jsonConfigString.trim() );
@@ -89,7 +99,7 @@ class Lookup implements LookupCache {
 		}
 		catch (JSONException je){
 			je.printStackTrace();
-		}
+		}		
 	}
 	
 	public HashMap<String, HashMap<String, HashMap<String, List<SegmentConfig>>>> getConfig(){

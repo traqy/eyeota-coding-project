@@ -8,7 +8,8 @@ import org.junit.Test;
 
 public class LookupTest {
 
-	String jsonFile = "/Users/traqy/github/eyeota-coding-project/src/test/resources/shortdata.json";	
+	//String jsonFile = "/Users/traqy/github/eyeota-coding-project/src/test/resources/shortdata.json";
+	String jsonFile = "src/test/resources/shortdata.json";
 	LookupCache cache = new Lookup(jsonFile);
 
 	@Test
@@ -105,3 +106,4 @@ public class LookupTest {
 	}	
 
 }
+
