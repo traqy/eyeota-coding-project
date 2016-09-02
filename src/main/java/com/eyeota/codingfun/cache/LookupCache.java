@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.File;
 import java.util.*;
 
-
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import  org.codehaus.jettison.json.JSONArray;
@@ -34,6 +33,7 @@ class Lookup implements LookupCache {
 			for (int i = 0; i <  jsonArrayFirstLevel.length(); i++){
 				//org1
 				JSONObject jsonObjectFirstLevel = jsonArrayFirstLevel.getJSONObject(i);
+				@SuppressWarnings("unchecked")
 				Iterator<String> keysFirstLevel = jsonObjectFirstLevel.keys();
 	            while (keysFirstLevel.hasNext()) {
 	                String kFirstLevel = keysFirstLevel.next().toString();
@@ -43,7 +43,8 @@ class Lookup implements LookupCache {
 	                JSONArray jsonArraySecondLevel = jsonObjectFirstLevel.getJSONArray(kFirstLevel);
 	                for (int j = 0; j < jsonArraySecondLevel.length(); j++) {
 	                	JSONObject jsonObjectSecondLevel = jsonArraySecondLevel.getJSONObject(j);
-	                	Iterator<String> keysSecondLevel = jsonObjectSecondLevel.keys();
+	                	@SuppressWarnings("unchecked")
+						Iterator<String> keysSecondLevel = jsonObjectSecondLevel.keys();
 	                	while (keysSecondLevel.hasNext()){
 	                		String kSecondLevel = keysSecondLevel.next().toString();
 	                		JSONArray jsonArrayThirdLevel = jsonObjectSecondLevel.getJSONArray(kSecondLevel);
@@ -52,7 +53,8 @@ class Lookup implements LookupCache {
 
 	                		for (int k = 0; k < jsonArrayThirdLevel.length(); k++) {
 	                			JSONObject jsonObjectThirdLevel = jsonArrayThirdLevel.getJSONObject(k);
-	                			Iterator<String> keysThirdLevel = jsonObjectThirdLevel.keys();
+	                			@SuppressWarnings("unchecked")
+								Iterator<String> keysThirdLevel = jsonObjectThirdLevel.keys();
 	                			while (keysThirdLevel.hasNext()){
 	                				String kThirdLevel = keysThirdLevel.next().toString();
 	                				JSONObject jsonObjectSegment = jsonObjectThirdLevel.getJSONObject(kThirdLevel);
