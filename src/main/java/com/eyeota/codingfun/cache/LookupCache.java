@@ -62,14 +62,7 @@ class Lookup implements LookupCache {
 	                				
 	                				String[] finalKeysThirdLevel = kThirdLevel.split("\\n");
 	                				for (String finakKThirdLevel: finalKeysThirdLevel ) {
-	                					
-	                					if ( finakKThirdLevel.equals("paramVal6") ) {
-		                	                System.out.print(kFirstLevel + ":");
-		        	                		System.out.print(kSecondLevel + ":");
-			                				System.out.println(finakKThirdLevel + " --> " + segmentId);	                						
-	                					}
-		                				
-		                				
+	                							                				
 		                				//List<SegmentConfig> segmentConfigArray = this.getSegmentConfigArray(kFirstLevel,kSecondLevel,finakKThirdLevel);		                				
 		                				List<SegmentConfig> segmentConfigArray = firstHashMap.get(finakKThirdLevel);
 		                				if ( segmentConfigArray != null ) {
