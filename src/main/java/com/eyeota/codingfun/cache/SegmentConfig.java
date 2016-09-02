@@ -3,7 +3,7 @@ package com.eyeota.codingfun.cache;
 public class SegmentConfig {
 	private String segmentId = "";
 	
-	public void SegmentId(final String paramSegmentId) {
+	SegmentConfig(final String paramSegmentId) {
 		this.setSegmentId(paramSegmentId);
 	}
 	public void setSegmentId(final String val) {

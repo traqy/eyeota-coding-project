@@ -17,13 +17,17 @@ import  org.codehaus.jettison.json.JSONArray;
 public interface LookupCache {
     public SegmentConfig[] getSegmentFor(final String orgKey, final String paramKey);
     public SegmentConfig[] getSegmentFor(final String orgKey, final String paramKey, final String paramValKey);
+    public HashMap<String, HashMap<String, HashMap<String, List<SegmentConfig>>>> getConfig();
 }
 
 class Lookup implements LookupCache {
 	
+	private HashMap<String, HashMap<String, HashMap<String, List<SegmentConfig>>>> config = new HashMap<String, HashMap<String, HashMap<String, List<SegmentConfig>>>>();
+	
 	public Lookup(final String jsonFile){
 		
 		String jsonConfigString = this.readFile(jsonFile);
+		
 		
 		try{
 			JSONArray jsonArrayFirstLevel = new JSONArray( jsonConfigString.trim() );
@@ -33,36 +37,147 @@ class Lookup implements LookupCache {
 				Iterator<String> keysFirstLevel = jsonObjectFirstLevel.keys();
 	            while (keysFirstLevel.hasNext()) {
 	                String kFirstLevel = keysFirstLevel.next().toString();
-	                System.out.print(kFirstLevel + ":");
+	                
+            		HashMap<String, HashMap<String, List<SegmentConfig>>> secondHashMap = new HashMap<String, HashMap<String, List<SegmentConfig>>>();
+
 	                JSONArray jsonArraySecondLevel = jsonObjectFirstLevel.getJSONArray(kFirstLevel);
 	                for (int j = 0; j < jsonArraySecondLevel.length(); j++) {
 	                	JSONObject jsonObjectSecondLevel = jsonArraySecondLevel.getJSONObject(j);
 	                	Iterator<String> keysSecondLevel = jsonObjectSecondLevel.keys();
 	                	while (keysSecondLevel.hasNext()){
 	                		String kSecondLevel = keysSecondLevel.next().toString();
-	                		System.out.print(kSecondLevel + ":");
 	                		JSONArray jsonArrayThirdLevel = jsonObjectSecondLevel.getJSONArray(kSecondLevel);
+	                		
+            				HashMap<String, List<SegmentConfig>> firstHashMap = new HashMap<String, List<SegmentConfig>>();
+
 	                		for (int k = 0; k < jsonArrayThirdLevel.length(); k++) {
 	                			JSONObject jsonObjectThirdLevel = jsonArrayThirdLevel.getJSONObject(k);
 	                			Iterator<String> keysThirdLevel = jsonObjectThirdLevel.keys();
 	                			while (keysThirdLevel.hasNext()){
 	                				String kThirdLevel = keysThirdLevel.next().toString();
-	                				System.out.print(kThirdLevel);	                				
 	                				JSONObject jsonObjectSegment = jsonObjectThirdLevel.getJSONObject(kThirdLevel);
 	                				String segmentId = jsonObjectSegment.getString("segmentId");
-	                				System.out.println(" --> " + segmentId);
+	                				
+	                				String[] finalKeysThirdLevel = kThirdLevel.split("\\n");
+	                				for (String finakKThirdLevel: finalKeysThirdLevel ) {
+	                	                System.out.print(kFirstLevel + ":");
+	        	                		System.out.print(kSecondLevel + ":");
+		                				System.out.println(finakKThirdLevel + " --> " + segmentId);
+		                				
+		                				
+		                				List<SegmentConfig> segmentConfigArray = this.getSegmentConfigArray(kFirstLevel,kSecondLevel,finakKThirdLevel);
+		                				if ( segmentConfigArray != null ) {
+		                					segmentConfigArray.add( new SegmentConfig(segmentId) );
+		                					firstHashMap.put(finakKThirdLevel, segmentConfigArray);
+		                				}
+		                				else{
+			                				List<SegmentConfig> segmentConfigArrayNew = new ArrayList<SegmentConfig>();
+			                				segmentConfigArrayNew.add(new SegmentConfig(segmentId));
+			                				firstHashMap.put(finakKThirdLevel, segmentConfigArrayNew);		                					
+		                				}		                				
+		                				
+		                						                						                				
+	                				}	                						                				
 	                			}
+                				secondHashMap.put(kSecondLevel, firstHashMap);		                				
 	                		}
 	                	}
-	                }
 	                
+	                	this.config.put(kFirstLevel, secondHashMap);
+	                }                
 	            }				
-				System.out.print("debug");
 			}
 		}
 		catch (JSONException je){
 			je.printStackTrace();
 		}
+	}
+	
+	public HashMap<String, HashMap<String, HashMap<String, List<SegmentConfig>>>> getConfig(){
+		return this.config;
+	}
+	
+	private List<SegmentConfig> getSegmentConfigArray(final String k1, final String k2, final String k3) {
+		
+		try{
+			
+			HashMap<String, HashMap<String, List<SegmentConfig>>> firstMap = this.config.get(k1);
+			if ( firstMap != null){
+				HashMap<String, List<SegmentConfig>> secondMap = firstMap.get(k2);
+				if ( secondMap !=null) {
+					List<SegmentConfig> segmentConfigArray = secondMap.get(k3);
+					if ( segmentConfigArray != null ) {
+						return segmentConfigArray;
+					}
+					else{
+						return null;
+					}
+				}
+				else{
+					return null;
+				}				
+			}
+			else{
+				return null;
+			}
+		}
+		catch(Exception e){
+			return null;
+		}		
+	}
+
+	public SegmentConfig[] getSegmentFor(final String k1, final String k2, final String k3){
+		
+		SegmentConfig[] segmentConfigArray = null;
+		try{
+			
+			HashMap<String, HashMap<String, List<SegmentConfig>>> firstMap = this.config.get(k1);
+			if ( firstMap != null){
+				HashMap<String, List<SegmentConfig>> secondMap = firstMap.get(k2);
+				if ( secondMap !=null) {
+					
+					List<SegmentConfig> segmentConfigArrayList = secondMap.get(k3);
+					if ( segmentConfigArrayList != null ) {
+						int array_size = segmentConfigArrayList.size();
+						segmentConfigArray = new SegmentConfig[array_size];
+						
+						for (int i = 0 ; i < segmentConfigArrayList.size() ; i++) {
+							SegmentConfig segmentConfig = segmentConfigArrayList.get(i);
+							segmentConfigArray[i] = segmentConfig;
+							//return segmentConfigArray;
+						}						
+					}
+				}
+			}
+		}
+		catch(Exception e){
+		}
+		finally{
+			return segmentConfigArray;
+		}
+	}
+
+	public SegmentConfig[] getSegmentForOld(final String k1, final String k2, final String k3){
+		
+		List<SegmentConfig> segmentConfigList = this.getSegmentConfigArray(k1, k2, k3);
+				
+		if ( segmentConfigList != null ){
+			int sizeOfSegmentConfigList = segmentConfigList.size();
+			SegmentConfig[] segmentConfigArray = new SegmentConfig[sizeOfSegmentConfigList];
+			for (int i = 0 ; i < sizeOfSegmentConfigList ; i++) {
+				SegmentConfig segmentConfig = segmentConfigList.get(i);
+				segmentConfigArray[i] = segmentConfig;
+			}
+			return segmentConfigArray;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public SegmentConfig[] getSegmentFor(final String orgKey, final String paramKey){
+		 SegmentConfig[] sconfig = new SegmentConfig[] { };
+		 return sconfig;
 	}
 	
 	private String readFile(String filename) {
@@ -78,15 +193,5 @@ class Lookup implements LookupCache {
          }
     	 return retval;
 	}	
-	public SegmentConfig[] getSegmentFor(final String orgKey, final String paramKey){
-		 SegmentConfig[] sconfig = new SegmentConfig[] { };
-		 return sconfig;
-	}
-	
-	public SegmentConfig[] getSegmentFor(final String orgKey, final String paramKey, final String paramValKey){
-		 SegmentConfig[] sconfig = new SegmentConfig[] { };
-		 return sconfig;		
-	}
-
 	
 }
