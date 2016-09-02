@@ -60,12 +60,16 @@ class Lookup implements LookupCache {
 	                				
 	                				String[] finalKeysThirdLevel = kThirdLevel.split("\\n");
 	                				for (String finakKThirdLevel: finalKeysThirdLevel ) {
-	                	                System.out.print(kFirstLevel + ":");
-	        	                		System.out.print(kSecondLevel + ":");
-		                				System.out.println(finakKThirdLevel + " --> " + segmentId);
+	                					
+	                					if ( finakKThirdLevel.equals("paramVal6") ) {
+		                	                System.out.print(kFirstLevel + ":");
+		        	                		System.out.print(kSecondLevel + ":");
+			                				System.out.println(finakKThirdLevel + " --> " + segmentId);	                						
+	                					}
 		                				
 		                				
-		                				List<SegmentConfig> segmentConfigArray = this.getSegmentConfigArray(kFirstLevel,kSecondLevel,finakKThirdLevel);
+		                				//List<SegmentConfig> segmentConfigArray = this.getSegmentConfigArray(kFirstLevel,kSecondLevel,finakKThirdLevel);		                				
+		                				List<SegmentConfig> segmentConfigArray = firstHashMap.get(finakKThirdLevel);
 		                				if ( segmentConfigArray != null ) {
 		                					segmentConfigArray.add( new SegmentConfig(segmentId) );
 		                					firstHashMap.put(finakKThirdLevel, segmentConfigArray);
@@ -128,7 +132,7 @@ class Lookup implements LookupCache {
 
 	public SegmentConfig[] getSegmentFor(final String k1, final String k2, final String k3){
 		
-		SegmentConfig[] segmentConfigArray = null;
+		SegmentConfig[] segmentConfigArray = new SegmentConfig[] { };
 		try{
 			
 			HashMap<String, HashMap<String, List<SegmentConfig>>> firstMap = this.config.get(k1);
@@ -152,11 +156,13 @@ class Lookup implements LookupCache {
 		}
 		catch(Exception e){
 		}
-		finally{
-			return segmentConfigArray;
-		}
+		return segmentConfigArray;
 	}
 
+	public SegmentConfig[] getSegmentFor(final String k1, final String k2){		
+		return this.getSegmentFor(k1, k2, "");
+	}
+	
 	public SegmentConfig[] getSegmentForOld(final String k1, final String k2, final String k3){
 		
 		List<SegmentConfig> segmentConfigList = this.getSegmentConfigArray(k1, k2, k3);
@@ -175,10 +181,6 @@ class Lookup implements LookupCache {
 		}
 	}
 	
-	public SegmentConfig[] getSegmentFor(final String orgKey, final String paramKey){
-		 SegmentConfig[] sconfig = new SegmentConfig[] { };
-		 return sconfig;
-	}
 	
 	private String readFile(String filename) {
          File f = new File(filename);
