@@ -16,7 +16,7 @@ import  org.codehaus.jettison.json.JSONArray;
 public interface LookupCache {
     public SegmentConfig[] getSegmentFor(final String orgKey, final String paramKey);
     public SegmentConfig[] getSegmentFor(final String orgKey, final String paramKey, final String paramValKey);
-    public HashMap<String, HashMap<String, HashMap<String, List<SegmentConfig>>>> getConfig();
+    //public HashMap<String, HashMap<String, HashMap<String, List<SegmentConfig>>>> getConfig();
 }
 
 class Lookup implements LookupCache {
